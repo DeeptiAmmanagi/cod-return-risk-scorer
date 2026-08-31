@@ -1,0 +1,18 @@
+{
+  "batch_size": 200,
+  "source_file": "val.csv (fixed seed)",
+  "tier_breakdown": {
+    "low": 120,
+    "medium": 69,
+    "high": 11
+  },
+  "action_breakdown": {
+    "none": 120,
+    "payment_link_nudge": 69,
+    "flagged_for_human_review": 11
+  },
+  "status_breakdown": {
+    "auto_approved": 120,
+    "success": 80
+  }
+}

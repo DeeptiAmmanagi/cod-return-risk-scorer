@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+joblib
+xgboost
+fastapi
+uvicorn[standard]
+razorpay
+streamlit

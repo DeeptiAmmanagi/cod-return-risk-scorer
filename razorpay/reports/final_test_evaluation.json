@@ -1,0 +1,21 @@
+{
+  "evaluated_at": "2026-08-30T01:49:48",
+  "model": "baseline_logreg.joblib",
+  "threshold": 0.23,
+  "cost_false_negative": 150.0,
+  "cost_false_positive": 40.0,
+  "test_set_size": 1200,
+  "test_positive_rate": 0.16416666666666666,
+  "roc_auc": 0.7508,
+  "pr_auc": 0.4465,
+  "precision": 0.326,
+  "recall": 0.6751,
+  "f1": 0.4397,
+  "true_negative": 728,
+  "false_positive": 275,
+  "false_negative": 64,
+  "true_positive": 133,
+  "total_cost_with_model_inr": 20600.0,
+  "total_cost_no_model_inr": 29550.0,
+  "cost_reduction_pct": 0.3029
+}

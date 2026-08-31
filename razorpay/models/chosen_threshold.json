@@ -1,0 +1,7 @@
+{
+  "chosen_threshold": 0.23,
+  "cost_false_negative": 150.0,
+  "cost_false_positive": 40.0,
+  "selected_on": "validation set",
+  "note": "Threshold chosen to minimize total expected cost, not accuracy/F1."
+}
