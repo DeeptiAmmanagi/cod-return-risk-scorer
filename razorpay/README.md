@@ -27,10 +27,10 @@ Threshold (0.23) was chosen by minimizing total expected cost — not accuracy o
 ## Architecture
 
 ```
-Synthetic COD orders (data/generate_data.py)
+Synthetic COD orders (src/generate_data.py)
         │
 Feature engineering: time-respecting historical aggregates,
-Bayesian-smoothed customer/pincode return rates (data/feature_engineering.py)
+Bayesian-smoothed customer/pincode return rates (src/feature_engineering.py)
         │
 Time-based train/val/test split (70/15/15) — test set touched exactly once
         │
@@ -88,12 +88,15 @@ Two smaller bugs also worth noting, both fixed the same day they were found:
 ## How to run it
 
 ```bash
-# 1. Setup
+# 1. Enter the project
+cd razorpay
+
+# 2. Setup
 python -m venv .venv
 source .venv/bin/activate        # or .venv\Scripts\activate on Windows
 pip install -r requirements.txt
 
-# 2. Build the data and model pipeline, in order
+# 3. Build the data and model pipeline, in order
 python src/generate_data.py
 python src/feature_engineering.py
 python src/train_model.py
@@ -101,10 +104,10 @@ python src/evaluate_model.py
 python src/train_stronger_model.py       # compares XGBoost, baseline wins here
 python src/final_test_evaluation.py      # ONE-TIME locked test evaluation
 
-# 3. Stress test (optional but recommended before demoing)
+# 4. Stress test (optional but recommended before demoing)
 python src/stress_test.py
 
-# 4. Run the system
+# 5. Run the system
 cd src
 uvicorn api:app --reload --port 8000     # API at http://127.0.0.1:8000/docs
 # in a separate terminal:
@@ -148,5 +151,7 @@ razorpay/
 │   ├── stress_test.py          # deliberate edge-case testing
 │   └── dashboard.py            # Streamlit UI
 ├── requirements.txt
+├── PROJECT_SPEC.md
+├── PROGRESS.md
 └── README.md
 ```
