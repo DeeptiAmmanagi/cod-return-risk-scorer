@@ -3,7 +3,7 @@
 
 **Stop the merchant losing money to fraud, returns and chargebacks — this project targets one class of loss: Cash-on-Delivery (COD) orders that get returned or refused at the doorstep.**
 
-We built a working detector that scores every COD order's return-risk before shipping, and a defense-only action layer that responds proportionally — a soft nudge, or a human review flag — and **never auto-cancels an order.**
+I built a working detector that scores every COD order's return-risk before shipping, and a defense-only action layer that responds proportionally — a soft nudge, or a human review flag — and **never auto-cancels an order.**
 
 ---
 
@@ -18,7 +18,7 @@ We built a working detector that scores every COD order's return-risk before shi
 | F1 | 0.440 |
 | Cost reduction vs. taking no action | **30.3%** |
 
-Model chosen: **Logistic Regression**, selected over XGBoost after a fair, validation-set comparison (XGBoost scored lower on both PR-AUC and total cost — a real result, not a foregone conclusion, and we report it honestly rather than assuming the more complex model would win).
+Model chosen: **Logistic Regression**, selected over XGBoost after a fair, validation-set comparison (XGBoost scored lower on both PR-AUC and total cost — a real result, not a foregone conclusion, and I report it honestly rather than assuming the more complex model would win).
 
 Threshold (0.23) was chosen by minimizing total expected cost — not accuracy or F1 — using an explicit, documented cost matrix (₹150 per missed risky order, ₹40 per unnecessary soft nudge on a good order). See `reports/cost_vs_threshold_baseline.png`.
 
@@ -60,9 +60,9 @@ Audit log (every decision, every action, timestamped) → Streamlit dashboard
 
 ---
 
-## What broke, and how we found and fixed it
+## What broke, and how I found and fixed it
 
-We deliberately stress-tested the system (`src/stress_test.py`) with edge cases rather than waiting to find bugs by accident: a brand-new customer with a brand-new pincode, an unseen item category, boundary discount values, a missing required field, and — critically — an order value far outside anything seen in training (₹2,50,000 against a training max of ~₹15,000).
+I deliberately stress-tested the system (`src/stress_test.py`) with edge cases rather than waiting to find bugs by accident: a brand-new customer with a brand-new pincode, an unseen item category, boundary discount values, a missing required field, and — critically — an order value far outside anything seen in training (₹2,50,000 against a training max of ~₹15,000).
 
 That last case looked fine at first glance (the model returned tier="low", implying "safe") but the raw probability was **5.8 × 10⁻²⁷** — not genuinely confident, but a StandardScaler wildly extrapolating on an input it had never seen anything like. Left unfixed, the system would have auto-approved an obviously anomalous order with entirely unjustified confidence — a silent failure that looks correct but isn't, which is worse than a loud crash.
 
@@ -88,12 +88,15 @@ Two smaller bugs also worth noting, both fixed the same day they were found:
 ## How to run it
 
 ```bash
-# 1. Setup
+# 1. Enter the project
+cd razorpay
+
+# 2. Setup
 python -m venv .venv
 source .venv/bin/activate        # or .venv\Scripts\activate on Windows
 pip install -r requirements.txt
 
-# 2. Build the data and model pipeline, in order
+# 3. Build the data and model pipeline, in order
 python src/generate_data.py
 python src/feature_engineering.py
 python src/train_model.py
@@ -101,10 +104,10 @@ python src/evaluate_model.py
 python src/train_stronger_model.py       # compares XGBoost, baseline wins here
 python src/final_test_evaluation.py      # ONE-TIME locked test evaluation
 
-# 3. Stress test (optional but recommended before demoing)
+# 4. Stress test (optional but recommended before demoing)
 python src/stress_test.py
 
-# 4. Run the system
+# 5. Run the system
 cd src
 uvicorn api:app --reload --port 8000     # API at http://127.0.0.1:8000/docs
 # in a separate terminal:
